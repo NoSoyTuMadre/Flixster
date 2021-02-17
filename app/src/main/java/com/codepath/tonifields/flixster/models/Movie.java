@@ -38,7 +38,7 @@ public class Movie {
     }
 
     public String getPosterPath() {
-        return basePath + imageSize + posterPath;
+        return basePath.substring(0, 4) + 's' + basePath.substring(4) + imageSize + posterPath;
     }
 
     public String getTitle() {
