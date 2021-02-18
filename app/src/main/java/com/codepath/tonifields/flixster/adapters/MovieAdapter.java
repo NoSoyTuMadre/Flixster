@@ -1,6 +1,7 @@
 package com.codepath.tonifields.flixster.adapters;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,7 +41,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     // Involves populating data into the item through holder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Log.d("MovieAdapter", "onBindViewHolder");
+        Log.d("MovieAdapter", "onBindViewHolder " + position);
         // Get the movie at the passed in position
         Movie movie = movies.get(position);
         // Bind the movie data into the ViewHolder
@@ -70,6 +71,17 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         public void bind(Movie movie) {
             tvTitle.setText(movie.getTitle());
             tvOverview.setText(movie.getOverview());
+            String imageUrl;
+
+            // if phone is in landscape
+            if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                // then imageUrl = backdrop image
+                imageUrl = movie.getBackdropPath();
+            } else {
+                // else imageUrl = poster image
+                imageUrl = movie.getPosterPath();
+            }
+
             GlideApp.with(context).load(movie.getPosterPath()).into(ivPoster);
         }
     }

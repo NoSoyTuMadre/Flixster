@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
         client.get(NOW_PLAYING_URL, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {

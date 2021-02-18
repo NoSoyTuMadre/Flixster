@@ -10,19 +10,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Movie {
+    String backdropPath;
     String posterPath;
     String title;
     String overview;
     String basePath;
-    String imageSize = "w342";
+    String posterSize = "w342";
+    String landscapePosterSize = "w780";
 
     public Movie(JSONObject jsonObject) throws JSONException {
+        this.backdropPath = jsonObject.getString("backdrop_path");
         this.posterPath = jsonObject.getString("poster_path");
         this.title = jsonObject.getString("title");
         this.overview = jsonObject.getString("overview");
     }
 
     public Movie(JSONObject jsonObject, Object object2) throws JSONException {
+        this.backdropPath = jsonObject.getString("backdrop_path");
         this.posterPath = jsonObject.getString("poster_path");
         this.title = jsonObject.getString("title");
         this.overview = jsonObject.getString("overview");
@@ -32,15 +36,18 @@ public class Movie {
     public static List<Movie> fromJsonArray(JSONArray movieJsonArray, JSONObject posterJsonObject) throws JSONException {
         List<Movie> movies = new ArrayList<>();
         for (int i = 0; i < movieJsonArray.length(); i++) {
-            movies.add(new Movie(movieJsonArray.getJSONObject(i), posterJsonObject.get("base_url")));
+            movies.add(new Movie(movieJsonArray.getJSONObject(i), posterJsonObject.get("secure_base_url")));
         }
         return movies;
     }
 
     public String getPosterPath() {
-        return basePath.substring(0, 4) + 's' + basePath.substring(4) + imageSize + posterPath;
+        return basePath + posterSize + posterPath;
     }
 
+    public String getBackdropPath() {
+        return basePath + landscapePosterSize + backdropPath;
+    }
     public String getTitle() {
         return title;
     }
@@ -53,7 +60,10 @@ public class Movie {
         return basePath;
     }
 
-    public String getImageSize() {
-        return imageSize;
+    public String getPosterSize() {
+        return posterSize;
+    }
+    public String getLandscapePosterSize() {
+        return landscapePosterSize;
     }
 }
