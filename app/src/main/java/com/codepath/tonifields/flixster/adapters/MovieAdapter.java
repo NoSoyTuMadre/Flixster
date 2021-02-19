@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.codepath.tonifields.flixster.R;
 import com.codepath.tonifields.flixster.models.Movie;
-import com.codepath.tonifields.flixster.utils.GlideApp;
 
 import java.util.List;
 
@@ -82,7 +81,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
                 imageUrl = movie.getPosterPath();
             }
 
-            GlideApp.with(context).load(movie.getPosterPath()).into(ivPoster);
+            Glide.with(context).load(imageUrl).into(ivPoster);
         }
     }
 }
