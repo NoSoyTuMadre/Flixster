@@ -12,9 +12,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.codepath.tonifields.flixster.R;
 import com.codepath.tonifields.flixster.models.Movie;
+import com.codepath.tonifields.flixster.modules.GlideApp;
 
 import java.util.List;
 
@@ -49,10 +49,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
     // Returns the total count of items in the list
     @Override
-    public int getItemCount() {
-        return movies.size();
-    }
-
+    public int getItemCount() { return movies.size(); }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -81,7 +78,22 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
                 imageUrl = movie.getPosterPath();
             }
 
-            Glide.with(context).load(imageUrl).into(ivPoster);
+//            MultiTransformation<Bitmap> multi = new MultiTransformation<Bitmap>(new RoundedCornersTransformation(25, 0, RoundedCornersTransformation.CornerType.TOP));
+//            Bitmap image = null;
+//            try {
+//                image = BitmapFactory.decodeStream(new URL(imageUrl).openConnection().getInputStream());
+//                Log.i("Image: ", image.toString());
+//            } catch (Exception e) {
+//                System.out.println(e.getMessage());
+//            }
+//            BitmapScaler.scaleToFitWidth(image, screenWidth);
+
+            GlideApp.with(context)
+                    .load(imageUrl)
+                    .placeholder(R.drawable.ic_loader_dark)
+                    .override(1000, 800)
+                    .dontAnimate()
+                    .into(ivPoster);
         }
     }
 }
