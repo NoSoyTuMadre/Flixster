@@ -1,6 +1,7 @@
 package com.codepath.tonifields.flixster.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.util.Log;
@@ -8,11 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.codepath.tonifields.flixster.DetailActivity;
 import com.codepath.tonifields.flixster.R;
 import com.codepath.tonifields.flixster.models.Movie;
 import com.codepath.tonifields.flixster.modules.GlideApp;
@@ -54,6 +57,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
+        RelativeLayout container;
         TextView tvTitle;
         TextView tvOverview;
         ImageView ivPoster;
@@ -64,6 +68,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvOverview = itemView.findViewById(R.id.tvOverview);
             ivPoster = itemView.findViewById(R.id.ivPoster);
+            container = itemView.findViewById(R.id.container);
         }
 
         public void bind(Movie movie) {
@@ -82,22 +87,25 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
                 imageUrl = movie.getPosterPath();
             }
 
-//            MultiTransformation<Bitmap> multi = new MultiTransformation<Bitmap>(new RoundedCornersTransformation(25, 0, RoundedCornersTransformation.CornerType.TOP));
-//            Bitmap image = null;
-//            try {
-//                image = BitmapFactory.decodeStream(new URL(imageUrl).openConnection().getInputStream());
-//                Log.i("Image: ", image.toString());
-//            } catch (Exception e) {
-//                System.out.println(e.getMessage());
-//            }
-//            BitmapScaler.scaleToFitWidth(image, screenWidth);
-
             GlideApp.with(context)
                     .load(imageUrl)
                     .placeholder(R.drawable.ic_loader_dark)
                     .override(1000, 800)
                     .dontAnimate()
                     .into(ivPoster);
+
+            // Register click listener on the whole view
+            container.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Navigate to a new activity on tap
+                    Intent i = new Intent(context, DetailActivity.class);
+                    i.putExtra("title", movie.getTitle());
+                    i.putExtra("overview", movie.getOverview());
+                    i.putExtra("rating", movie.getRating());
+                    context.startActivity(i);
+                }
+            });
         }
     }
 }

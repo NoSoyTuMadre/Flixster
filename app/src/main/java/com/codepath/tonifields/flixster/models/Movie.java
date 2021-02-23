@@ -17,6 +17,7 @@ public class Movie {
     String title;
     String overview;
     String basePath;
+    float rating;
     String posterSize = "w342";
     String landscapePosterSize = "w1280";
 
@@ -25,6 +26,7 @@ public class Movie {
         this.posterPath = jsonObject.getString("poster_path");
         this.title = jsonObject.getString("title");
         this.overview = jsonObject.getString("overview");
+        this.rating = Float.parseFloat(jsonObject.getString("vote_average"));
     }
 
     public Movie(@NonNull JSONObject jsonObject, @NonNull Object object2) throws JSONException {
@@ -34,6 +36,7 @@ public class Movie {
         this.overview = jsonObject.getString("overview");
         String str = object2.toString();
         this.basePath = str.substring(0, 4) + 's' + str.substring(4);
+        this.rating = Float.parseFloat(jsonObject.getString("vote_average"));
     }
 
     public static List<Movie> fromJsonArray(@NonNull JSONArray movieJsonArray, @NonNull JSONObject posterJsonObject) throws JSONException {
@@ -69,4 +72,6 @@ public class Movie {
     public String getLandscapePosterSize() {
         return landscapePosterSize;
     }
+
+    public float getRating() { return rating; }
 }

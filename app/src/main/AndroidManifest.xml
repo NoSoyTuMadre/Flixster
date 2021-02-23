@@ -11,6 +11,7 @@
         android:roundIcon="@drawable/ic_flixster"
         android:supportsRtl="true"
         android:theme="@style/Theme.Flixster">
+        <activity android:name=".DetailActivity"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
