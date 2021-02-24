@@ -20,6 +20,8 @@ import com.codepath.tonifields.flixster.R;
 import com.codepath.tonifields.flixster.models.Movie;
 import com.codepath.tonifields.flixster.modules.GlideApp;
 
+import org.parceler.Parcels;
+
 import java.util.List;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
@@ -94,15 +96,14 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
                     .dontAnimate()
                     .into(ivPoster);
 
+
             // Register click listener on the whole view
             container.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // Navigate to a new activity on tap
                     Intent i = new Intent(context, DetailActivity.class);
-                    i.putExtra("title", movie.getTitle());
-                    i.putExtra("overview", movie.getOverview());
-                    i.putExtra("rating", movie.getRating());
+                    i.putExtra("movie", Parcels.wrap(movie));
                     context.startActivity(i);
                 }
             });
