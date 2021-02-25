@@ -2,30 +2,25 @@ package com.codepath.tonifields.flixster;
 
 import android.os.Bundle;
 import android.util.Log;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.codepath.tonifields.flixster.adapters.MovieAdapter;
 import com.codepath.tonifields.flixster.models.Movie;
-import com.codepath.tonifields.flixster.utils.APIKeys;
-
+import com.codepath.tonifields.flixster.utils.Secrets;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import okhttp3.Headers;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String NOW_PLAYING_URL = APIKeys.NOW_PLAYING_URL;
-    public static final String POSTER_IMAGE_URL = APIKeys.POSTER_IMAGE_URL;
+    public static final String NOW_PLAYING_URL = "https://api.themoviedb.org/3/movie/now_playing?" + Secrets.NOW_PLAYING_API;
+    public static final String POSTER_IMAGE_URL = "https://api.themoviedb.org/3/movie/now_playing?" + Secrets.POSTER_IMAGE_URL;
     public static final String TAG = "MainActivity";
 
     List<Movie> movies;

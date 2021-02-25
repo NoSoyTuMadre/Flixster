@@ -7,18 +7,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.RatingBar;
 import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.codepath.tonifields.flixster.models.Movie;
-import com.codepath.tonifields.flixster.utils.APIKeys;
+import com.codepath.tonifields.flixster.utils.Secrets;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.parceler.Parcels;
@@ -27,8 +23,8 @@ import okhttp3.Headers;
 
 public class DetailActivity extends YouTubeBaseActivity {
 
-    public static final String YOUTUBE_API_KEY = APIKeys.YOUTUBE_API_KEY;
-    public static final String VIDEOS_URL = APIKeys.VIDEOS_URL;
+    public static final String YOUTUBE_API_KEY = Secrets.YOUTUBE_API_KEY;
+    public static final String VIDEOS_URL = "https://api.themoviedb.org/3/movie/%d/videos?" + Secrets.VIDEOS_URL_API;
 
     TextView tvTitle;
     TextView tvOverview;
