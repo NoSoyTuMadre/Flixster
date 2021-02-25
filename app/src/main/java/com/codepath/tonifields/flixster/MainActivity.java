@@ -11,6 +11,7 @@ import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.codepath.tonifields.flixster.adapters.MovieAdapter;
 import com.codepath.tonifields.flixster.models.Movie;
+import com.codepath.tonifields.flixster.utils.APIKeys;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,10 +24,8 @@ import okhttp3.Headers;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String NOW_PLAYING_URL = "https://api.themoviedb.org/3/movie/now_playing" +
-            "?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
-    public static final String POSTER_IMAGE_URL = "https://api.themoviedb.org/3/configuration" +
-            "?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
+    public static final String NOW_PLAYING_URL = APIKeys.NOW_PLAYING_URL;
+    public static final String POSTER_IMAGE_URL = APIKeys.POSTER_IMAGE_URL;
     public static final String TAG = "MainActivity";
 
     List<Movie> movies;
@@ -38,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         RecyclerView rvMovies = findViewById(R.id.rvMovies);
-        movies = new ArrayList<Movie>();
+        movies = new ArrayList<>();
 
         // Create the adapter
         final MovieAdapter movieAdapter = new MovieAdapter(this, movies);
