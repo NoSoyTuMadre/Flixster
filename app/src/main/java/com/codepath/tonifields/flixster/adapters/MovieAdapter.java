@@ -16,6 +16,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.target.Target;
 import com.codepath.tonifields.flixster.DetailActivity;
 import com.codepath.tonifields.flixster.R;
 import com.codepath.tonifields.flixster.models.Movie;
@@ -92,8 +94,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
             GlideApp.with(context)
                     .load(imageUrl)
+                    .transform(new RoundedCorners(30))  // Create rounded corners on images
+                    .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL + 200)
+                    //.override(1000, 800)
                     .placeholder(R.drawable.ic_loader_dark)
-                    .override(1000, 800)
                     .dontAnimate()
                     .into(ivPoster);
 
