@@ -19,8 +19,8 @@ import okhttp3.Headers;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String NOW_PLAYING_URL = "https://api.themoviedb.org/3/movie/now_playing?" + Secrets.NOW_PLAYING_API;
-    public static final String POSTER_IMAGE_URL = "https://api.themoviedb.org/3/movie/now_playing?" + Secrets.POSTER_IMAGE_URL;
+    public static final String NOW_PLAYING_URL = "https://api.themoviedb.org/3/movie/now_playing?api_key=" + Secrets.VIDEOS_URL_API;
+    public static final String POSTER_IMAGE_URL = "https://api.themoviedb.org/3/configuration?api_key=" + Secrets.VIDEOS_URL_API;
     public static final String TAG = "MainActivity";
 
     List<Movie> movies;
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-
+                Log.d(TAG, "onFailure");
             }
         });
 
@@ -77,6 +77,54 @@ public class MainActivity extends AppCompatActivity {
                     Log.i(TAG, "Movies: " + movies.size());
                 } catch (JSONException e) {
                     Log.e(TAG, "Hit json exception", e);
+                }
+                catch (NullPointerException r) {
+                    Log.e(TAG, "Null pointer exception", r);
+
+                    // if null pointer exception, try one more time to collect info (to eliminate crashing due to null pointer exception)
+                    client.get(POSTER_IMAGE_URL, new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Headers headers, JSON json) {
+                            Log.d(TAG, "onSuccess");
+                            JSONObject jsonObject = json.jsonObject;
+                            try {
+                                // get base-url
+                                images = jsonObject.getJSONObject("images");
+                                Log.i(TAG, "Images: " + images.toString());
+                            } catch (JSONException e) {
+                                Log.e(TAG, "Hit json exception", e);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                            Log.d(TAG, "onFailure");
+                        }
+                    });
+
+                    client.get(NOW_PLAYING_URL, new JsonHttpResponseHandler() {
+                        @Override
+                        public void onSuccess(int statusCode, Headers headers, JSON json) {
+                            Log.d(TAG, "onSuccess");
+                            JSONObject jsonObject = json.jsonObject;
+                            try {
+                                results = jsonObject.getJSONArray("results");
+                                Log.i(TAG, "Results: " + results.toString());
+                                movies.addAll(Movie.fromJsonArray(results, images));
+                                movieAdapter.notifyDataSetChanged();
+                                Log.i(TAG, "Movies: " + movies.size());
+                            } catch (JSONException e) {
+                                Log.e(TAG, "Hit json exception", e);
+                            } catch (NullPointerException r) {
+                                Log.e(TAG, "Null pointer exception", r);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+
+                        }
+                    });
                 }
             }
 

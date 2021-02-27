@@ -1,8 +1,10 @@
 package com.codepath.tonifields.flixster;
 
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.RatingBar;
@@ -24,7 +26,7 @@ import okhttp3.Headers;
 public class DetailActivity extends YouTubeBaseActivity {
 
     public static final String YOUTUBE_API_KEY = Secrets.YOUTUBE_API_KEY;
-    public static final String VIDEOS_URL = "https://api.themoviedb.org/3/movie/%d/videos?" + Secrets.VIDEOS_URL_API;
+    public static final String VIDEOS_URL = "https://api.themoviedb.org/3/movie/%d/videos?api_key=" + Secrets.VIDEOS_URL_API;
 
     TextView tvTitle;
     TextView tvOverview;
@@ -85,6 +87,10 @@ public class DetailActivity extends YouTubeBaseActivity {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
                 Log.d("DetailActivity", "onInitializationSuccess");
+                Log.d("Rating", String.valueOf(ratingBar.getRating()));
+                if (ratingBar.getRating() > 5.0) {
+                    youTubePlayer.loadVideo(youtubeKey);
+                }
                 youTubePlayer.cueVideo(youtubeKey);
             }
 
